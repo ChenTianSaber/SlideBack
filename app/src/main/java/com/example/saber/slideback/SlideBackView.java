@@ -72,8 +72,8 @@ public class SlideBackView extends View {
         //画里面的箭头
         arrowPath.reset();
         arrowPath.moveTo(controlX/6+(dp2px(5)*(controlX/(SlideBackActivity.screenWidth/6))),backViewHeight*15/32);
-        arrowPath.lineTo(controlX/6,backViewHeight*16/32);
-        arrowPath.moveTo(controlX/6,backViewHeight*16/32);
+        arrowPath.lineTo(controlX/6,backViewHeight*16.1f/32);
+        arrowPath.moveTo(controlX/6,backViewHeight*15.9f/32);
         arrowPath.lineTo(controlX/6+(dp2px(5)*(controlX/(SlideBackActivity.screenWidth/6))),backViewHeight*17/32);
         canvas.drawPath(arrowPath,arrowPaint);
 
