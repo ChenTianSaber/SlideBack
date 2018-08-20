@@ -2,7 +2,7 @@
 一个仿 即刻APP 滑动返回效果的Demo
 
 # 效果
-![1534682341325_video.gif](https://upload-images.jianshu.io/upload_images/2649238-5cb23871c75fbc6d.gif?imageMogr2/auto-orient/strip)
+https://upload-images.jianshu.io/upload_images/2649238-5cb23871c75fbc6d.gif?imageMogr2/auto-orient/strip
 
 # 使用方法：
 把上面代码中的SlideBackActivity.java，SlideBackView.java，view_slideback.xml三个文件拷贝到自己项目里
