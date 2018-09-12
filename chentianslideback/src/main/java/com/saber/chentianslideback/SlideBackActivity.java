@@ -1,9 +1,9 @@
-package com.example.saber.slideback;
+package com.saber.chentianslideback;
 
 import android.content.Context;
 import android.graphics.PixelFormat;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,7 +12,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 
-public class SlideBackActivity extends AppCompatActivity{
+public class SlideBackActivity extends AppCompatActivity {
 
     String TAG = "SlideBackActivity";
 
@@ -57,11 +57,11 @@ public class SlideBackActivity extends AppCompatActivity{
         layoutParams.format = PixelFormat.RGBA_8888;
         layoutParams.x = (int) (-screenWidth/2);
 
-        backView = LayoutInflater.from(this).inflate(R.layout.view_slideback,null);
+        backView = LayoutInflater.from(this).inflate(R.layout.chentian_view_slideback,null);
         slideBackView = backView.findViewById(R.id.slideBackView);
 
         FrameLayout container = (FrameLayout) getWindow().getDecorView();
-        containerView = LayoutInflater.from(this).inflate(R.layout.view_slide_container,null);
+        containerView = LayoutInflater.from(this).inflate(R.layout.chentian_view_slide_container,null);
         slideContainerView = containerView.findViewById(R.id.slide_container);
         container.addView(slideContainerView);
 

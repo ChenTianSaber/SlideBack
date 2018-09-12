@@ -9,8 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.saber.chentianslideback.SlideBackActivity;
 
 public class HomeActivity extends SlideBackActivity {
 

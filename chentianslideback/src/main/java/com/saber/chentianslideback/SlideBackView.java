@@ -1,4 +1,4 @@
-package com.example.saber.slideback;
+package com.saber.chentianslideback;
 
 import android.content.Context;
 import android.graphics.Canvas;
