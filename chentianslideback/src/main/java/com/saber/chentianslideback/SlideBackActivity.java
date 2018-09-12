@@ -1,7 +1,5 @@
 package com.saber.chentianslideback;
 
-import android.content.Context;
-import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -26,8 +24,6 @@ public class SlideBackActivity extends AppCompatActivity {
 
     View backView;
     SlideBackView slideBackView;
-    WindowManager windowManager;
-    WindowManager.LayoutParams layoutParams;
 
     View containerView;
     FrameLayout slideContainerView;
@@ -47,22 +43,14 @@ public class SlideBackActivity extends AppCompatActivity {
         screenHeight = outMetrics.heightPixels;
         shouldFinishPix = screenWidth/3;
 
-        //添加返回的View
-        windowManager = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
-        layoutParams = new WindowManager.LayoutParams();
-        layoutParams.width = dp2px(SlideBackView.width);
-        layoutParams.height = 0;
-        layoutParams.type = WindowManager.LayoutParams.TYPE_PHONE;
-        layoutParams.flags = WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCH_MODAL;
-        layoutParams.format = PixelFormat.RGBA_8888;
-        layoutParams.x = (int) (-screenWidth/2);
-
         backView = LayoutInflater.from(this).inflate(R.layout.chentian_view_slideback,null);
         slideBackView = backView.findViewById(R.id.slideBackView);
+
 
         FrameLayout container = (FrameLayout) getWindow().getDecorView();
         containerView = LayoutInflater.from(this).inflate(R.layout.chentian_view_slide_container,null);
         slideContainerView = containerView.findViewById(R.id.slide_container);
+        slideContainerView.addView(backView);
         container.addView(slideContainerView);
 
         slideContainerView.setOnTouchListener(new View.OnTouchListener() {
@@ -75,10 +63,8 @@ public class SlideBackActivity extends AppCompatActivity {
                         downX = motionEvent.getRawX();
                         if(x<=dp2px(CANSLIDE_LENGTH)){
                             isEage = true;
-                            layoutParams.height = dp2px(SlideBackView.height);
-                            layoutParams.y = (int) (motionEvent.getRawY()-screenHeight/2);
                             slideBackView.updateControlPoint(Math.abs(x));
-                            windowManager.addView(backView, layoutParams);
+                            setBackViewY(backView,(int) (motionEvent.getRawY()));
                         }
                         break;
 
@@ -88,8 +74,7 @@ public class SlideBackActivity extends AppCompatActivity {
                             if(Math.abs(moveX)<=shouldFinishPix){
                                 slideBackView.updateControlPoint(Math.abs(moveX)/2);
                             }
-                            layoutParams.y = (int) (motionEvent.getRawY()-screenHeight/2);
-                            windowManager.updateViewLayout(backView, layoutParams);
+                            setBackViewY(backView,(int) (motionEvent.getRawY()));
                         }
                         break;
 
@@ -99,7 +84,6 @@ public class SlideBackActivity extends AppCompatActivity {
                             if(x>=shouldFinishPix){
                                 slideBackSuccess();
                             }
-                            windowManager.removeViewImmediate(backView);
                         }
                         isEage = false;
                         slideBackView.updateControlPoint(0);
@@ -112,6 +96,17 @@ public class SlideBackActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public void setBackViewY(View view,int y) {
+        //判断是否超出了边界
+        int topMargin = y-dp2px(SlideBackView.height)/2;
+        if(topMargin < 0 || y > screenHeight-dp2px(SlideBackView.height)/2){
+            return;
+        }
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(view.getLayoutParams());
+        layoutParams.topMargin = topMargin;
+        view.setLayoutParams(layoutParams);
     }
 
     protected void slideBackSuccess(){
