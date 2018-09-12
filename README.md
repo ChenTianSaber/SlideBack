@@ -2,7 +2,7 @@
 一个仿 即刻APP 滑动返回效果的Demo
 
 # 效果
-![示例.gif](https://user-gold-cdn.xitu.io/2018/8/20/1655691cada3b454?imageslim)
+https://user-gold-cdn.xitu.io/2018/8/20/1655691cada3b454?imageslim
 
 # 使用方法：
 
