@@ -2,7 +2,7 @@
 一个仿 即刻APP 滑动返回效果的Demo
 
 # 效果
-![示例.gif](https://upload-images.jianshu.io/upload_images/2649238-5cb23871c75fbc6d.gif?imageMogr2/auto-orient/strip)
+![示例.gif](https://user-gold-cdn.xitu.io/2018/8/20/1655691cada3b454?imageslim)
 
 # 使用方法：
 
