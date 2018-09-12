@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.FrameLayout;
 
 public class SlideBackActivity extends AppCompatActivity{
 
@@ -27,6 +28,9 @@ public class SlideBackActivity extends AppCompatActivity{
     SlideBackView slideBackView;
     WindowManager windowManager;
     WindowManager.LayoutParams layoutParams;
+
+    View containerView;
+    FrameLayout slideContainerView;
 
     float x;
     float y;
@@ -56,8 +60,12 @@ public class SlideBackActivity extends AppCompatActivity{
         backView = LayoutInflater.from(this).inflate(R.layout.view_slideback,null);
         slideBackView = backView.findViewById(R.id.slideBackView);
 
-        View view = getWindow().getDecorView().findViewById(android.R.id.content);
-        view.setOnTouchListener(new View.OnTouchListener() {
+        FrameLayout container = (FrameLayout) getWindow().getDecorView();
+        containerView = LayoutInflater.from(this).inflate(R.layout.view_slide_container,null);
+        slideContainerView = containerView.findViewById(R.id.slide_container);
+        container.addView(slideContainerView);
+
+        slideContainerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 x = motionEvent.getRawX();
@@ -97,7 +105,11 @@ public class SlideBackActivity extends AppCompatActivity{
                         slideBackView.updateControlPoint(0);
                         break;
                 }
-                return true;
+                if(isEage){
+                    return true;
+                }else {
+                    return false;
+                }
             }
         });
     }
