@@ -1,5 +1,5 @@
 # SlideBack
-一个仿 即刻APP 滑动返回效果的Demo
+一个仿 即刻APP 滑动返回效果的小东西
 
 # 效果
 https://user-gold-cdn.xitu.io/2018/8/20/1655691cada3b454?imageslim
