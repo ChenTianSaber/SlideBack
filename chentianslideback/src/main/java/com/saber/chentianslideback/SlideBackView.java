@@ -13,8 +13,8 @@ import android.view.View;
 public class SlideBackView extends View {
     String TAG = "SlideBackView";
 
-    Path path,arrowPath;
-    Paint paint,arrowPaint;
+    Path path, arrowPath;
+    Paint paint, arrowPaint;
 
     float controlX = 0;//曲线的控制点
 
@@ -24,12 +24,21 @@ public class SlideBackView extends View {
     public static float width = 40;
     public static float height = 260;
 
+    //下面是配置侧滑返回可以从屏幕什么位置召唤出来
+    public static int LEFT = 0;
+    public static int RIGHT = 1;
+    public static int ALL = 2;
+
+    public static int SLIDEBACK_DIRECTION = ALL;
+
+    int offset;
+
     public SlideBackView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public SlideBackView(Context context, @Nullable AttributeSet attrs) {
-        this(context, attrs,0);
+        this(context, attrs, 0);
     }
 
     public SlideBackView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
@@ -62,27 +71,32 @@ public class SlideBackView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         //画外面的东西
+        float x1 = SlideBackActivity.screenWidth - SlideBackActivity.screenWidth * offset;
+
         path.reset();
-        path.moveTo(0,0);
-        path.quadTo(0,backViewHeight/4,controlX/3,backViewHeight*3/8);
-        path.quadTo(controlX*5/8,backViewHeight/2,controlX/3,backViewHeight*5/8);
-        path.quadTo(0,backViewHeight*6/8,0,backViewHeight);
+        path.moveTo(x1, 0);
+        path.quadTo(x1, backViewHeight / 4, Math.abs(x1 - controlX / 3), backViewHeight * 3 / 8);
+        path.quadTo(Math.abs(x1 - controlX * 5 / 8), backViewHeight / 2, Math.abs(x1 - controlX / 3), backViewHeight * 5 / 8);
+        path.quadTo(x1, backViewHeight * 6 / 8, x1, backViewHeight);
         canvas.drawPath(path, paint);
 
         //画里面的箭头
-        arrowPath.reset();
-        arrowPath.moveTo(controlX/6+(dp2px(5)*(controlX/(SlideBackActivity.screenWidth/6))),backViewHeight*15/32);
-        arrowPath.lineTo(controlX/6,backViewHeight*16.1f/32);
-        arrowPath.moveTo(controlX/6,backViewHeight*15.9f/32);
-        arrowPath.lineTo(controlX/6+(dp2px(5)*(controlX/(SlideBackActivity.screenWidth/6))),backViewHeight*17/32);
-        canvas.drawPath(arrowPath,arrowPaint);
+        float x2 = Math.abs(SlideBackActivity.screenWidth - SlideBackActivity.screenWidth * offset - controlX / 6);
 
-        setAlpha(controlX/(SlideBackActivity.screenWidth/6));
+        arrowPath.reset();
+        arrowPath.moveTo(x2 + (dp2px(5) * (controlX / (SlideBackActivity.screenWidth / 6))), backViewHeight * 15 / 32);
+        arrowPath.lineTo(x2, backViewHeight * 16.1f / 32);
+        arrowPath.moveTo(x2, backViewHeight * 15.9f / 32);
+        arrowPath.lineTo(x2 + (dp2px(5) * (controlX / (SlideBackActivity.screenWidth / 6))), backViewHeight * 17 / 32);
+        canvas.drawPath(arrowPath, arrowPaint);
+
+        setAlpha(controlX / (SlideBackActivity.screenWidth / 6));
     }
 
-    public void updateControlPoint(float controlX){
-        Log.d(TAG, "updateControlPoint: "+controlX);
+    public void updateControlPoint(float controlX, int offset) {
+        Log.d(TAG, "updateControlPoint: " + controlX);
         this.controlX = controlX;
+        this.offset = 1 - offset;
         invalidate();
     }
 

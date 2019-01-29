@@ -32,6 +32,8 @@ public class SlideBackActivity extends AppCompatActivity {
     float y;
     float downX;
 
+    int offset;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,14 +43,14 @@ public class SlideBackActivity extends AppCompatActivity {
         manager.getDefaultDisplay().getMetrics(outMetrics);
         screenWidth = outMetrics.widthPixels;
         screenHeight = outMetrics.heightPixels;
-        shouldFinishPix = screenWidth/3;
+        shouldFinishPix = screenWidth / 3;
 
-        backView = LayoutInflater.from(this).inflate(R.layout.chentian_view_slideback,null);
+        backView = LayoutInflater.from(this).inflate(R.layout.chentian_view_slideback, null);
         slideBackView = backView.findViewById(R.id.slideBackView);
 
 
         FrameLayout container = (FrameLayout) getWindow().getDecorView();
-        containerView = LayoutInflater.from(this).inflate(R.layout.chentian_view_slide_container,null);
+        containerView = LayoutInflater.from(this).inflate(R.layout.chentian_view_slide_container, null);
         slideContainerView = containerView.findViewById(R.id.slide_container);
         slideContainerView.addView(backView);
         container.addView(slideContainerView);
@@ -56,52 +58,82 @@ public class SlideBackActivity extends AppCompatActivity {
         slideContainerView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
-                x = motionEvent.getRawX();
+
+                x = Math.abs(screenWidth * offset - motionEvent.getRawX());
                 y = motionEvent.getRawY();
-                switch (motionEvent.getAction()){
+
+                switch (motionEvent.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         downX = motionEvent.getRawX();
-                        if(x<=dp2px(CANSLIDE_LENGTH)){
+
+                        //判断点击范围与设置的滑出区域是否符合
+                        if (SlideBackView.SLIDEBACK_DIRECTION == SlideBackView.LEFT) {
+                            if (downX > screenWidth / 2) {
+                                //在右侧区域，直接return
+                                return false;
+                            } else {
+                                offset = 0;
+                            }
+                        } else if (SlideBackView.SLIDEBACK_DIRECTION == SlideBackView.RIGHT) {
+                            if (downX < screenWidth / 2) {
+                                //在左侧区域，直接return
+                                return false;
+                            } else {
+                                offset = 1;
+                            }
+                        } else if (SlideBackView.SLIDEBACK_DIRECTION == SlideBackView.ALL) {
+                            if (downX > screenWidth / 2) {
+                                //在右侧区域，设为RIGHT
+                                offset = 1;
+                            } else if (downX < screenWidth / 2) {
+                                //在左侧区域，设为LEFT
+                                offset = 0;
+                            }
+                        }
+
+                        x = Math.abs(screenWidth * offset - motionEvent.getRawX());
+
+                        if (x <= dp2px(CANSLIDE_LENGTH)) {
                             isEage = true;
-                            slideBackView.updateControlPoint(Math.abs(x));
-                            setBackViewY(backView,(int) (motionEvent.getRawY()));
+                            slideBackView.updateControlPoint(Math.abs(x), offset);
+                            setBackViewY(backView, (int) (motionEvent.getRawY()));
                         }
                         break;
 
                     case MotionEvent.ACTION_MOVE:
-                        float moveX = x - downX;
-                        if(isEage){
-                            if(Math.abs(moveX)<=shouldFinishPix){
-                                slideBackView.updateControlPoint(Math.abs(moveX)/2);
+                        float moveX = Math.abs(screenWidth * offset - x) - downX;
+                        if (isEage) {
+                            if (Math.abs(moveX) <= shouldFinishPix) {
+                                slideBackView.updateControlPoint(Math.abs(moveX) / 2, offset);
                             }
-                            setBackViewY(backView,(int) (motionEvent.getRawY()));
+                            setBackViewY(backView, (int) (motionEvent.getRawY()));
                         }
                         break;
 
                     case MotionEvent.ACTION_UP:
                         //从左边缘划过来，并且最后在屏幕的三分之一外
-                        if(isEage){
-                            if(x>=shouldFinishPix){
+                        if (isEage) {
+                            if (x >= shouldFinishPix) {
                                 slideBackSuccess();
                             }
                         }
                         isEage = false;
-                        slideBackView.updateControlPoint(0);
+                        slideBackView.updateControlPoint(0, offset);
                         break;
                 }
-                if(isEage){
+                if (isEage) {
                     return true;
-                }else {
+                } else {
                     return false;
                 }
             }
         });
     }
 
-    public void setBackViewY(View view,int y) {
+    public void setBackViewY(View view, int y) {
         //判断是否超出了边界
-        int topMargin = y-dp2px(SlideBackView.height)/2;
-        if(topMargin < 0 || y > screenHeight-dp2px(SlideBackView.height)/2){
+        int topMargin = y - dp2px(SlideBackView.height) / 2;
+        if (topMargin < 0 || y > screenHeight - dp2px(SlideBackView.height) / 2) {
             return;
         }
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(view.getLayoutParams());
@@ -109,7 +141,7 @@ public class SlideBackActivity extends AppCompatActivity {
         view.setLayoutParams(layoutParams);
     }
 
-    protected void slideBackSuccess(){
+    protected void slideBackSuccess() {
         Log.d(TAG, "slideSuccess");
     }
 
