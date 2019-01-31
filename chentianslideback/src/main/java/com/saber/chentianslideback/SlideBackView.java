@@ -62,7 +62,8 @@ public class SlideBackView extends View {
         arrowPaint.setAntiAlias(true);
         arrowPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         arrowPaint.setColor(Color.WHITE);
-        arrowPaint.setStrokeWidth(8);
+        arrowPaint.setStrokeWidth(5);
+        arrowPaint.setStrokeCap(Paint.Cap.ROUND);
 
         setAlpha(0);
     }
@@ -74,20 +75,22 @@ public class SlideBackView extends View {
         float x1 = SlideBackActivity.screenWidth - SlideBackActivity.screenWidth * offset;
 
         path.reset();
-        path.moveTo(x1, 0);
+        path.moveTo(x1, dp2px(40));
         path.quadTo(x1, backViewHeight / 4, Math.abs(x1 - controlX / 3), backViewHeight * 3 / 8);
+
         path.quadTo(Math.abs(x1 - controlX * 5 / 8), backViewHeight / 2, Math.abs(x1 - controlX / 3), backViewHeight * 5 / 8);
-        path.quadTo(x1, backViewHeight * 6 / 8, x1, backViewHeight);
+
+        path.quadTo(x1, backViewHeight * 6 / 8, x1, backViewHeight-dp2px(40));
         canvas.drawPath(path, paint);
 
         //画里面的箭头
         float x2 = Math.abs(SlideBackActivity.screenWidth - SlideBackActivity.screenWidth * offset - controlX / 6);
 
         arrowPath.reset();
-        arrowPath.moveTo(x2 + (dp2px(5) * (controlX / (SlideBackActivity.screenWidth / 6))), backViewHeight * 15 / 32);
-        arrowPath.lineTo(x2, backViewHeight * 16.1f / 32);
-        arrowPath.moveTo(x2, backViewHeight * 15.9f / 32);
-        arrowPath.lineTo(x2 + (dp2px(5) * (controlX / (SlideBackActivity.screenWidth / 6))), backViewHeight * 17 / 32);
+        arrowPath.moveTo(x2 + (dp2px(5) * (controlX / (SlideBackActivity.screenWidth / 4f))), backViewHeight * 15.5f / 32);
+        arrowPath.lineTo(x2, backViewHeight * 16f / 32);
+        arrowPath.moveTo(x2, backViewHeight * 16f / 32);
+        arrowPath.lineTo(x2 + (dp2px(5) * (controlX / (SlideBackActivity.screenWidth / 4f))), backViewHeight * 16.5f / 32);
         canvas.drawPath(arrowPath, arrowPaint);
 
         setAlpha(controlX / (SlideBackActivity.screenWidth / 6));
