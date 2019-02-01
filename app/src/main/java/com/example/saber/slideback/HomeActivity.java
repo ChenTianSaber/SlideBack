@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 
 import com.saber.chentianslideback.SlideBackActivity;
 
-public class HomeActivity extends SlideBackActivity {
+public class HomeActivity extends BaseActivity {
 
     RecyclerView recyclerView;
 
@@ -23,6 +23,8 @@ public class HomeActivity extends SlideBackActivity {
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setAdapter(new MyAdapter());
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+//        setSlideBackDirection(SlideBackActivity.LEFT);
     }
 
     @Override

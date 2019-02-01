@@ -34,6 +34,13 @@ public class SlideBackActivity extends AppCompatActivity {
 
     int offset;
 
+    //下面是配置侧滑返回可以从屏幕什么位置召唤出来
+    public static int LEFT = 0;
+    public static int RIGHT = 1;
+    public static int ALL = 2;
+
+    public int SLIDEBACK_DIRECTION = ALL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,21 +74,21 @@ public class SlideBackActivity extends AppCompatActivity {
                         downX = motionEvent.getRawX();
 
                         //判断点击范围与设置的滑出区域是否符合
-                        if (SlideBackView.SLIDEBACK_DIRECTION == SlideBackView.LEFT) {
+                        if (SLIDEBACK_DIRECTION == LEFT) {
                             if (downX > screenWidth / 2) {
                                 //在右侧区域，直接return
                                 return false;
                             } else {
                                 offset = 0;
                             }
-                        } else if (SlideBackView.SLIDEBACK_DIRECTION == SlideBackView.RIGHT) {
+                        } else if (SLIDEBACK_DIRECTION == RIGHT) {
                             if (downX < screenWidth / 2) {
                                 //在左侧区域，直接return
                                 return false;
                             } else {
                                 offset = 1;
                             }
-                        } else if (SlideBackView.SLIDEBACK_DIRECTION == SlideBackView.ALL) {
+                        } else if (SLIDEBACK_DIRECTION == ALL) {
                             if (downX > screenWidth / 2) {
                                 //在右侧区域，设为RIGHT
                                 offset = 1;
@@ -148,5 +155,9 @@ public class SlideBackActivity extends AppCompatActivity {
     public int dp2px(final float dpValue) {
         final float scale = getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    public void setSlideBackDirection(int value){
+        SLIDEBACK_DIRECTION = value;
     }
 }

@@ -24,13 +24,6 @@ public class SlideBackView extends View {
     public static float width = 40;
     public static float height = 260;
 
-    //下面是配置侧滑返回可以从屏幕什么位置召唤出来
-    public static int LEFT = 0;
-    public static int RIGHT = 1;
-    public static int ALL = 2;
-
-    public static int SLIDEBACK_DIRECTION = ALL;
-
     int offset;
 
     public SlideBackView(Context context) {
