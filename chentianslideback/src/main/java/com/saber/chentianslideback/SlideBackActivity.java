@@ -140,8 +140,10 @@ public class SlideBackActivity extends AppCompatActivity {
     public void setBackViewY(View view, int y) {
         //判断是否超出了边界
         int topMargin = y - dp2px(SlideBackView.height) / 2;
-        if (topMargin < 0 || y > screenHeight - dp2px(SlideBackView.height) / 2) {
-            return;
+        if (topMargin < 0) {
+            topMargin = 0;
+        }else if(y > screenHeight - dp2px(SlideBackView.height) / 2){
+            topMargin = (int) (screenHeight - dp2px(SlideBackView.height));
         }
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(view.getLayoutParams());
         layoutParams.topMargin = topMargin;

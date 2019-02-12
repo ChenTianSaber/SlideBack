@@ -1,12 +1,11 @@
 # SlideBack
-一个让你的页面支持 滑动返回 的小东西
 
-# 效果
+# Example
 ![示例](https://user-gold-cdn.xitu.io/2019/2/8/168cd3a35dd2f34d?w=289&h=596&f=gif&s=218272)
 
-# 使用方法：
+# Uasge
 
-Step 1. 在你项目的根build.gradle中添加jitpack.io库
+Step 1. add jitpack.io to your root build.gradle
 
 ````
 allprojects {
@@ -16,7 +15,7 @@ allprojects {
     }
 }
 ````
-Step 2. 添加SlideBack的依赖
+Step 2. add SlideBack
 
 ````
 dependencies {
@@ -24,13 +23,13 @@ dependencies {
 }
 ````
 
-Step 3. 将项目中继承的Activity换成SlideBackActivity
+Step 3. extends SlideBackActivity
 
 ````
 public class YourActivity extends SlideBackActivity
 ````
 
-Step 4. 你可以在onCreate方法中调用setSlideBackDirection，可以给每一个Activity单独配置，如果没有配置这个，那么默认是 SlideBackActivity.ALL
+Step 4. you can call setSlideBackDirection in onCreate, and you can set slideBackDirection for single Activity, the default value SlideBackActivity.ALL
 
 ````
 protected void onCreate(Bundle savedInstanceState) {
@@ -44,13 +43,13 @@ protected void onCreate(Bundle savedInstanceState) {
 }
 ````
 
-Step 5. 重写slideBackSuccess(当滑动有效时会回调这个方法，可以在这里进行回退操作或其他)
+Step 5. override slideBackSuccess(it will callback when slideback success ,you can do something in this like finish your activity)
 
 ````
 @Override
 protected void slideBackSuccess() {
-   finish();//或者其他
+   finish();//or other
 }
 ````
 
-#### 希望大家能给我Star...
+#### Please give me Star...
